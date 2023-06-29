@@ -23,12 +23,18 @@ const storage = multer.diskStorage({
   // I jak nasz plik ma się nazywać. Poniżej widać orginalną nazwę dodaną na końcu z uniqueSuffix, który jest skonstruowany chwilę wcześniej
   filename(req, file, cb) {
     // 1E9 to 10 do potęgi 9. Dodajemy to do nazwy, żeby pliki o jednakowej nazwie się nie nadpisywały. Nazwa będzie zawierała dodatkowy ciąg znaków
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.originalname);
+    // const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    // cb(null, uniqueSuffix + "-" + file.originalname);
+    getFilenameWithSuffix(file.originalname, cb);
   },
   // możemy dodawać limity jak maksymalna wielkość pliku
   // limits: { fileSize: 1047474 },
 });
+
+function getFilenameWithSuffix(originalname, callback) {
+  const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+  callback(null, uniqueSuffix + "-" + file.originalname);
+}
 
 const upload = multer({
   storage,
